@@ -30,12 +30,12 @@ window.onload = function () {
 		openFullscreen = window.document.getElementById("openFullscreen"),
 		openPreview = window.document.getElementById("openPreview"),
 		previewCSS = window.document.getElementById("previewCSS"),
+		previewTab = window.document.getElementById("previewTab"),
 		printCSS = window.document.getElementById("printCSS"),
 		printSmall = window.document.getElementById("printSmall"),
 		shortcuts = window.document.getElementById("shortcuts"),
 		smartScroll = window.document.getElementById("smartScroll"),
 		smartScrollPos = window.document.getElementById("smartScrollPos"),
-		startWith = window.document.getElementById("startWith"),
 		tables = window.document.getElementById("tables"),
 		tablesDiv = window.document.getElementById("tablesDiv");
 
@@ -91,11 +91,6 @@ window.onload = function () {
 	} else {
 		livePreview.checked = false;
 	}
-	if (window.localStorage.getItem("start_with") === "Welcome Text") {
-		startWith.selectedIndex = 0;
-	} else {
-		startWith.selectedIndex = 1;
-	}
 	ask.checked = window.JSON.parse(window.localStorage.getItem("ask"));
 	breaks.checked = window.JSON.parse(window.localStorage.getItem("breaks"));
 	calculatorComma.checked = window.JSON.parse(window.localStorage.getItem("calculator_comma"));
@@ -120,6 +115,7 @@ window.onload = function () {
 	openFullscreen.checked = window.JSON.parse(window.localStorage.getItem("open_fullscreen"));
 	openPreview.checked = window.JSON.parse(window.localStorage.getItem("open_preview"));
 	previewCSS.value = window.localStorage.getItem("preview_css");
+	previewTab.checked = window.JSON.parse(window.localStorage.getItem("preview_tab"));
 	printCSS.checked = window.JSON.parse(window.localStorage.getItem("print_css"));
 	printSmall.checked = window.JSON.parse(window.localStorage.getItem("print_small"));
 	shortcuts.value = window.localStorage.getItem("shortcuts");
@@ -231,6 +227,9 @@ window.onload = function () {
 	printSmall.onchange = function () {
 		window.localStorage.setItem("print_small", window.JSON.stringify(printSmall.checked));
 	};
+	previewTab.onclick = function () {
+		window.localStorage.setItem("preview_tab", window.JSON.stringify(previewTab.checked));
+	};
 	previewCSS.onkeyup = function () {
 		window.localStorage.setItem("preview_css", previewCSS.value);
 	};
@@ -242,9 +241,6 @@ window.onload = function () {
 	};
 	smartScrollPos.onchange = function () {
 		window.localStorage.setItem("smart_scroll_pos", smartScrollPos.options[smartScrollPos.selectedIndex].text.toLowerCase());
-	};
-	startWith.onchange = function () {
-		window.localStorage.setItem("start_with", startWith.options[startWith.selectedIndex].text);
 	};
 	tables.onclick = function () {
 		window.localStorage.setItem("tables", window.JSON.stringify(tables.checked));

@@ -1,0 +1,8 @@
+##0.6.1.1
+* Removed the option to start with a "Blank Document".
+* Option to preview in a new tab, instead of a popup.
+* The shortcut to view the shortcuts page is now "Ctrl/Cmd + D".
+* Fixed the  email adress in the contact info. If you sent me a letter, I have not received it.
+
+##0.6.1
+* Shortcuts page now show "command" on mac.

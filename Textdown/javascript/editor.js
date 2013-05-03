@@ -10,6 +10,7 @@ window.onload = function () {
 		hideLinks = window.JSON.parse(window.localStorage.getItem("hide_links")),
 		iframe = window.document.getElementById("iframe"),
 		livePreview = window.JSON.parse(window.localStorage.getItem("live_preview")),
+		previewTab = window.JSON.parse(window.localStorage.getItem("preview_tab")),
 		printCSS = window.JSON.parse(window.localStorage.getItem("print_css")),
 		shortcuts,
 		textarea = window.document.getElementById("textarea");
@@ -206,16 +207,20 @@ window.onload = function () {
 					greeting: "preview"
 				});
 			} else {
-				window.chrome.windows.getCurrent({}, function (w) {
-					window.chrome.windows.create({
-						"url": "preview.html",
-						"type": "popup",
-						"width": w.width,
-						"height": w.height - 22,
-						"left": w.left,
-						"top": w.top
+				if (previewTab) {
+					window.open("preview.html");
+				} else {
+					window.chrome.windows.getCurrent({}, function (w) {
+						window.chrome.windows.create({
+							"url": "preview.html",
+							"type": "popup",
+							"width": w.width,
+							"height": w.height - 22,
+							"left": w.left,
+							"top": w.top
+						});
 					});
-				});
+				}
 			}
 		});
 	},
@@ -662,6 +667,27 @@ window.onload = function () {
 		event.preventDefault();
 		textarea._wrap(window.localStorage.getItem("bi_syntax") + window.localStorage.getItem("bi_syntax"));
 	}),
+	window.Mousetrap.bind(ctrlKey + "+d", function (event) { // Help
+		event.preventDefault();
+		isURLOpen("chrome-extension://" + window.chrome.i18n.getMessage("@@extension_id") + "/docs/keyboard_shortcuts.html", function (isOpen, tab) {
+				if (isOpen) {
+					window.chrome.windows.update(tab.windowId, {
+						focused: true
+					});
+				} else {
+					window.chrome.windows.getCurrent({}, function () {
+						window.chrome.windows.create({
+							"url": "chrome-extension://" + window.chrome.i18n.getMessage("@@extension_id") + "/docs/keyboard_shortcuts.html",
+							"type": "popup",
+							"width": 480,
+							"height": parseInt(screen.availHeight - (screen.availHeight * 0.2), 10),
+							"left": parseInt((screen.availWidth - 480)/2, 10),
+							"top": parseInt(screen.availHeight * 0.1, 10)
+						});
+					});
+				}
+			});
+	}),
 	window.Mousetrap.bind(ctrlKey + "+e", function (event) { // Document/selection info
 		event.preventDefault();
 		var value,
@@ -926,27 +952,6 @@ window.onload = function () {
 			textarea._insert(result.toLowerCase(), [pos[0], pos[0] + result.length]);
 		}
 	}),
-	window.Mousetrap.bind("shift+e", function (event) { // Help
-		event.preventDefault();
-		isURLOpen("chrome-extension://" + window.chrome.i18n.getMessage("@@extension_id") + "/docs/keyboard_shortcuts.html", function (isOpen, tab) {
-				if (isOpen) {
-					window.chrome.windows.update(tab.windowId, {
-						focused: true
-					});
-				} else {
-					window.chrome.windows.getCurrent({}, function () {
-						window.chrome.windows.create({
-							"url": "chrome-extension://" + window.chrome.i18n.getMessage("@@extension_id") + "/docs/keyboard_shortcuts.html",
-							"type": "popup",
-							"width": 480,
-							"height": parseInt(screen.availHeight - (screen.availHeight * 0.2), 10),
-							"left": parseInt((screen.availWidth - 480)/2, 10),
-							"top": parseInt(screen.availHeight * 0.1, 10)
-						});
-					});
-				}
-			});
-	}),
 	window.Mousetrap.bind("esc", function (event) { // Words Shortcuts
 		event.preventDefault();
 		if (shortcuts !== null) {
@@ -1012,9 +1017,6 @@ window.onload = function () {
 				store();
 			}
 		} else {
-			if (window.localStorage.getItem("start_with") !== "Welcome Text") {
-				textarea.value = "";
-			}
 			textarea._set(0);
 			if (window.JSON.parse(window.localStorage.getItem("ask"))) {
 				var docName = window.prompt("Name this document");

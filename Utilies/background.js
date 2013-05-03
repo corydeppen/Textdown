@@ -17,21 +17,23 @@ window.onload = function() {
         }
     });
     if (window.chrome.fileBrowserHandler) {
-        window.chrome.fileBrowserHandler.onExecute.addListener(function(id, details) {
-            if(id === "open") {
-                var fileEntries = details.entries;
-                for(var i = 0, entry; entry = fileEntries[i]; ++i) {
-                    entry.file(function(file) {
-                        var reader = new window.FileReader(),
-                            title = file.name;
-                        reader.onload = function(event) {
-                            window.open("chrome-extension://" + sessionStorage.getItem("id") + "/editor.html?open=1&title=" + window.encodeURIComponent(title) + "&text=" + window.encodeURIComponent(event.target.result));
-                        };
-                        reader.readAsText(file);
-                    });
+        try {
+            window.chrome.fileBrowserHandler.onExecute.addListener(function(id, details) {
+                if(id === "open") {
+                    var fileEntries = details.entries;
+                    for(var i = 0, entry; entry = fileEntries[i]; ++i) {
+                        entry.file(function(file) {
+                            var reader = new window.FileReader(),
+                                title = file.name;
+                            reader.onload = function(event) {
+                                window.open("chrome-extension://" + sessionStorage.getItem("id") + "/editor.html?open=1&title=" + window.encodeURIComponent(title) + "&text=" + window.encodeURIComponent(event.target.result));
+                            };
+                            reader.readAsText(file);
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } catch(e) {}
     }
     function copyString(string) {
         window.document.body.innerHTML = string;

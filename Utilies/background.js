@@ -42,7 +42,7 @@ window.onload = function() {
     }
     var contexts = ["link", "image"];
     window.chrome.contextMenus.create({
-        "title": "Copy Link Adress as Markdown",
+        "title": "Copy Link Address as Markdown",
         "contexts": [contexts[0]],
         "onclick": function(info) {
             if(info.selectionText !== info.linkUrl) {
@@ -53,14 +53,14 @@ window.onload = function() {
         }
     });
     window.chrome.contextMenus.create({
-        "title": "Copy Image Adress as Markdown",
+        "title": "Copy Image Address as Markdown",
         "contexts": [contexts[1]],
         "onclick": function(info) {
             copyString("![image](" + info.srcUrl + ")");
         }
     });
     window.chrome.contextMenus.create({
-        "title": "Copy Page Adress as Markdown",
+        "title": "Copy Page Address as Markdown",
         "onclick": function(tab, info) {
             copyString("[" + info.title + "](" + tab.pageUrl + ")");
         }

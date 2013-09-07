@@ -771,13 +771,13 @@ window.onload = function () {
 					textarea._insert("![" + userInput + "](" + pos[2] + ")", [pos[0], pos[1] + userInput.length + 5]);
 				}
 			} else {
-				userInput = window.prompt("Enter the Image Adress", "http://");
+				userInput = window.prompt("Enter the Image Address", "http://");
 				if (userInput) {
 					textarea._insert("![" + pos[2] + "](" + userInput + ")", [pos[0], pos[1] + userInput.length + 5]);
 				}
 			}
 		} else {
-			userInput = window.prompt("Enter the Image Adress", 'http://');
+			userInput = window.prompt("Enter the Image Address", 'http://');
 			if (userInput) {
 				textarea._insert("![](" + userInput + ")", [pos, pos + userInput.length + 5]);
 			}
@@ -807,13 +807,13 @@ window.onload = function () {
 					textarea._insert("[" + userInput + "](" + pos[2] + ")", [pos[0], pos[1] + userInput.length + 4]);
 				}
 			} else {
-				userInput = window.prompt("Enter the Link Adress", "http://");
+				userInput = window.prompt("Enter the Link Address", "http://");
 				if (userInput) {
 					textarea._insert("[" + pos[2] + "](" + userInput + ")", [pos[0], pos[1] + userInput.length + 4]);
 				}
 			}
 		} else {
-			userInput = window.prompt("Enter the Link Adress", 'http://');
+			userInput = window.prompt("Enter the Link Address", 'http://');
 			if (userInput) {
 				textarea._insert("[](" + userInput + ")", [pos, pos + userInput.length + 4]);
 			}
